@@ -1,0 +1,503 @@
+#
+#                             
+#                             
+#        Hyperchat        
+#   by Hyperbyte and midoublelo  
+#                             
+#
+#
+# All parts are split up to allow full customization
+# No support will be offered if the problem is due to you editing the Skript
+
+
+
+options:
+	customChatFormat: true
+	chatFormat: "%player's display name% &8» &b%message%"
+	customJoinMessage: "&8[&a+&8] &e%player%"
+	customLeaveMessage: "&8[&c-&8] &e%player%"
+	firstJoinMessage: "&7Everyone welcome &e%player% &7to the server! &8- &e#%{hyperchat.joincount}%"
+	joinCounter: true
+	antiSwear: true
+
+on chat:
+	{@customChatFormat} = true:
+		cancel event
+		broadcast colored {@chatFormat}
+
+# Join & Leave
+
+on first join:
+	{@joinCounter} = true:
+		add 1 to {hyperchat.joincount}
+		broadcast {@firstJoinMessage}
+	else:
+		stop
+
+on join:
+	set join message to {@customJoinMessage}
+
+on quit:
+	set quit message to {@customLeaveMessage}
+
+
+# Main Command
+
+command /hyperchat [<text>] [<text>] [<text>] [<text>]:
+	permission: hyperchat.admin
+	permission message: &cCommand unavailable.
+	usage: &7/hyperchat
+	aliases: /hchat, /hyperc, /hc
+	trigger:
+		if arg-1 is not set:
+			message "&e&lHyperchat v1.3 &eby Hyperbyte and midoublelo"
+			message "&eUse /hyperchat help for commands"
+			message "&eUse /hyperchat reload to reload the config"
+		if arg-1 is "help":
+			if arg-2 is not set:
+				message "         &e&lHyperchat Command List"
+				message ""
+				message "             &e/hyperchat help broadcasts"
+				message "               &7&oView broadcast info"
+				message ""
+				message "             &e/hyperchat help chat"
+				message "               &7&oView chat info"
+				message ""
+				message "             &e/hyperchat help punishment"
+				message "               &7&oView punishment info"
+				message ""
+				message "             &e/hyperchat help records"
+				message "               &7&oView record help"
+				message ""
+				message "             &e/hyperchat help symbols"
+				message "               &7&oView symbol help"
+				message ""
+				message "             &e/hyperchat help control"
+				message "              &7&oView chat control help"
+				message ""
+				message "             &e/hyperchat help prefixes"
+				message "              &7&oView prefix/suffix help"		
+				message ""
+				message "             &e/hyperchat help formatting"
+				message "              &7&oView formatting help"	
+				message " "
+			if arg-2 is "broadcasts":
+				message "          &e&lHyperchat Broadcast Help"
+				message ""
+				message "       &e/broadcast [Message] - Requires hyperchat.admin"
+				message "       &e/announcement [Announcement] - Requires hyperchat.admin"
+				message "       &e/msgevery [Message] - Requires hyperchat.admin - MSG all players"
+				message ""
+			if arg-2 is "chat":
+				message "         &e&lHyperchat Chat Help"
+				message ""
+				message "      &e/staffchat [Message] - Requires hyperchat.admin"
+			if arg-2 is "punishment":
+				message "         &e&lHyperchat Punishment Help"
+				message ""
+				message "      &e/warning [Player] [Reason] - Requires hyperchat.admin"
+				message "      &e/chatreport [Player] [Reason] - No permission needed"
+			if arg-2 is "records":
+				message "         &e&lHyperchat Record Help"
+				message ""
+				message "&ePlayers who are warned or who speak in chat have a player record."
+				message "&eThese records can be accessed in this file path."
+				message "&7Skript/logs/hyperchat/playerhistory/[Player Name]"
+			if arg-2 is "symbols":
+				message "        &e&lHyperchat Symbols Help"
+				message ""
+				message "&ePermissions are hyperchat.symbols.<symbol name>"
+				message ""
+				message "&a{heart1} &7= &f❤  &0&m--&a {heart2} &7= &f❥"
+				message "&a{heart3} &7= &f♥  &0&m--&a {male} &7= &f♂"
+				message "&a{female} &7= &f♀  &0&m--&a {peace} &7= &f☮"
+				message "&a{checkmark} &7= &f✔  &0&m--&a {x} &7= &f✘"
+				message "&a{plane} &7= &f✈  &0&m--&a {music} &7= &f♪"
+				message "&a{music2} &7= &f♫  &0&m--&a {cross} &7= &f✞"
+				message "&a{snowman} &7= &f☃  &0&m--&a {toxic} &7= &f☢"
+				message "&a{crossbones} &7= &f☠  &0&m--&a {copyright} &7= &f©"
+				message "&a{tm} &7= &f™  &0&m--&a {star1} &7= &f★"
+				message "&a{pi} &7= &fπ   &0&m--&a {star2} &7= &f✫"
+				message "&a{star3} &7= &f✪ &0&m--&a {star4} &7= &f✯"
+				message "&a{bio} &7= &f☣ &0&m--&a {crown} &7= &f♛"
+				message "&a{yingyang} &7= &f☯ &0&m--&a {cloud} &7= &f☁"
+				message "&a{1} &7= &f➀ &0&m---&a {2} &7= &f➁"
+				message "&a{3} &7= &f➂ &0&m---&a {4} &7= &f➃"
+				message "&a{5} &7= &f➄ &0&m---&a {6} &7= &f➅"
+				message "&a{7} &7= &f➆ &0&m---&a {8} &7= &f➇"
+				message "&a{9} &7= &f➈ &0&m---&a {10} &7= &f➉"
+			if arg-2 is "control":
+				message "       &e&lHyperchat Chat Control Help"
+				message ""
+				message "      &e/disablechat - Requires hyperchat.admin"
+				message "&e      /enablechat - Requires hyperchat.admin"
+				message "&e    /clearchat - Requires hyperchat.admin"
+				message "&e      /clearchat personal - No permission needed"
+				message "&e      /clearchat silent - Requires hyperchat.admin"
+			if arg-2 is "prefixes":
+				message "       &e&lHyperchat Prefix/Suffix Help"
+				message ""
+				message "      &e/prefix - Requires hyperchat.admin"
+				message "      &e/suffix - Requires hyperchat.admin"
+			if arg-2 is "formatting":
+				message "       &e&lHyperchat Formatting Help"
+				message ""
+				message "&eHyperchat has a built in chat formatter designed for basic usage."
+				message "&eIt is &cnot recommended for general use&e as Hyperchat is designed to be used"
+				message "&ealongside plugins such as EssentialsChat and DeluxeChat. However, chat"
+				message "&efunctionality should work normally. More information on feature compatibility here:"
+				message ""
+				message "&a ✔ Normal Chat"
+				message "&a ✔ Hyperchat Prefixes and Suffixes"
+				message "&a ✔ Colored Chat"
+				message "&a ✔ Custom editable chat formatting"
+				message "&6 ✔✘ Alternative Prefixes & Suffixes (must edit display name)"
+				message "&c ✘ Chat Symbols"
+				message "&c ✘ Chat variables from other plugins"
+				message "&c ✘ Simultaneous prefix and suffix"
+		if arg-1 is "reload":
+			message "&eStarting Hyperchat reload."
+			execute console command "/sk reload hyperchat"
+			message "&eHyperchat &areloaded&e. &cErrors &eare unable to be shown in reload. Check console for possible &c&nerror checking&e and report them to Hyperbyte."
+		
+				
+				
+				
+				
+# Broadcasting
+
+command /broadcast [<text>]:
+	permission: hyperchat.admin
+	permission message: &cCommand unavailable.
+	usage: /broadcast
+	aliases: /broadc, /bcast, /bc
+	trigger:
+		if arg-1 is not set:
+			message "&eYou must provide a message to broadcast."
+		if arg-1 is set:
+			broadcast colored "&8[&6&lBroadcast&8] &e%arg-1%"
+				
+command /announcement [<text>]:
+	permission: hyperchat.admin
+	permission message: &cCommand unavailable.
+	usage: /announcement
+	aliases: /announce, /an
+	trigger:
+		if arg-1 is not set:
+			message "&eYou must provide a message to announce."
+		if arg-1 is set:
+			broadcast colored "&8[&c&lAnnouncement&8] &e%arg-1%"
+				
+command /msgevery [<text>]:
+	permission: hyperchat.admin
+	permission message: &cCommand unavailable.
+	usage: /msgevery
+	aliases: /msgall, /msga, /ma
+	trigger:
+		if arg-1 is not set:
+			message "&eYou must provide a message for all players."
+		if arg-1 is set:
+			loop all players:
+				message colored "&8&l[&b&lMessage from Staff&8&l] &e%arg-1%"
+				
+# Chat
+
+command /staffchat [<text>]:
+	permission: hyperchat.admin
+	permission message: &cCommand unavailable.
+	usage: /staffchat
+	aliases: /staffc
+	trigger:
+		if arg-1 is not set:
+			message "&eYou must provide a message to send to staff."
+		if arg-1 is set:
+			loop all players:
+				if player has permission "hyperchat.admin":
+					send "&8&l[&a&lStaff Chat&8&l] &7%player's display name%&8: &e%arg-1%" to loop-player
+
+on chat:					
+	log "%player's uuid%/%player%: %message%" to "Hyperchat/playerhistory/%player%/chat"
+	log "%player's uuid%/%player%: %message%" to "Hyperchat/Global"
+	
+# Antiswear
+
+options:
+	swear1: swear1
+	swear2: swear2
+	swear3: swear3
+	swear4: swear4
+	swear5: swear5
+	swear6: swear6
+
+on chat:
+	{@antiSwear} = true:
+		if message contains "{@swear1}" or "{@swear2}" or "{@swear3}" or "{@swear4}" or "{@swear5}" or "{@swear6}":
+			if player has permission "hyperchat.swearbypass":
+				cancel event
+			if player doesn't have the permission "hyperchat.swearbypass":
+				cancel event
+				send "&8&m-------------------------"
+				send "&c&lPlease do not swear"
+				send "&8&m-------------------------"
+			else:
+				loop all players:
+					if loop-player has permission "hyperchat.swearnotify":
+						send "&e&o%player% is swearing!" to loop-player
+						cancel event
+	else:
+		stop
+					
+# Punishment
+
+command /warning [<player>] [<text>]:
+	usage: /warning
+	aliases: /warn, /wa
+	permission: hyperchat.admin
+	trigger:
+		if arg-1 is not set:
+			message "&eYou must choose a player to warn."
+		if arg-1 is set:
+			if arg-2 is not set:
+				send "&7You have been &cwarned&7." to arg-1
+				message "&a%arg-1% &ewas warned for no reason."
+				message "&eThe warn has been placed on his user record"
+				message "&eFind out more about records with /hyperchat help records"
+				log "%player's uuid% (known as %player% at the time) was warned" to "Hyperchat/playerhistory/%player%/history"
+			if arg-2 is set:
+				send "&7You have been &cwarned &7for &a%arg-2%"
+				message "&a%arg-1% &ewas warned for &a%arg-2%"
+				message "&eThe warn has been placed on his user record"
+				message "&eFind out more about records with /hyperchat help records"
+				log "%player's uuid% (known as %player% at the time) was warned for %arg-2%." to "Hyperchat/playerhistory/%player%/history"
+				
+command /chatreport [<player>] [<text>]:
+	usage: /chatreport
+	aliases: /creport, /chatr
+	trigger:
+		if arg-1 is not set:
+			message "&eYou must choose a player to chat report."	
+		if arg-1 is set:
+			if arg-2 is not set:
+				message "&eYou have to provide a reason."
+			if arg-2 is set:
+				message "&eYou have reported &b%arg-1% &efor &a%arg-2%&e. Keep in mind that staff may check chat logs for evidence."
+				loop all players:
+					if player has permission "hyperchat.admin":
+						message "&b%arg-1% &ehas been chatreported for &a%arg-2%&b!"
+						
+# Symbols
+on chat:
+	if player has permission "hyperchat.symbols.heart1":
+		replace all "{heart1}" in message with "❤"
+	if player has permission "hyperchat.symbols.heart2":
+		replace all "{heart2}" in message with "❥"
+	if player has permission "hyperchat.symbols.male":
+		replace all "{male}" in message with "♂"
+	if player has permission "hyperchat.symbols.female":
+		replace all "{female}" in message with "♀"
+	if player has permission "hyperchat.symbols.peace":
+		replace all "{peace}" in message with "☮"
+	if player has permission "hyperchat.symbols.checkmark":
+		replace all "{checkmark}" in message with "✔"
+	if player has permission "hyperchat.symbols.x":
+		replace all "{x}" in message with "✘"
+	if player has permission "hyperchat.symbols.plane":
+		replace all "{plane}" in message with "✈"
+	if player has permission "hyperchat.symbols.music":
+		replace all "{music}" in message with "♪"
+	if player has permission "hyperchat.symbols.cross":
+		replace all "{cross}" in message with "✞"
+	if player has permission "hyperchat.symbols.snowman":
+		replace all "{snowman}" in message with "☃"
+	if player has permission "hyperchat.symbols.toxic":
+		replace all "{toxic}" in message with "☢"
+	if player has permission "hyperchat.symbols.crossbones":
+		replace all "{crossbones}" in message with "☠"
+	if player has permission "hyperchat.symbols.copyright":
+		replace all "{copyright}" in message with "©"
+	if player has permission "hyperchat.symbols.tm":
+		replace all "{tm}" in message with "™"
+	if player has permission "hyperchat.symbols.star1":
+		replace all "{star1}" in message with "★"
+	if player has permission "hyperchat.symbols.star2":
+		replace all "{star2}" in message with "✫"
+	if player has permission "hyperchat.symbols.star3":
+		replace all "{star3}" in message with "✪"
+	if player has permission "hyperchat.symbols.star4":
+		replace all "{star4}" in message with "✯"
+	if player has permission "hyperchat.symbols.pi":
+		replace all "{pi}" in message with "π"
+	if player has permission "hyperchat.symbols.bio":
+		replace all "{bio}" in message with "☣"
+	if player has permission "hyperchat.symbols.crown":
+		replace all "{crown}" in message with "♛"
+	if player has permission "hyperchat.symbols.yingyang":
+		replace all "{yingyang}" in message with "☯"
+	if player has permission "hyperchat.symbols.cloud":
+		replace all "{cloud}" in message with "☁"
+	if player has permission "hyperchat.symbols.1":
+		replace all "{1}" in message with "➀"
+	if player has permission "hyperchat.symbols.2":
+		replace all "{2}" in message with "➁"
+	if player has permission "hyperchat.symbols.3":
+		replace all "{3}" in message with "➂"
+	if player has permission "hyperchat.symbols.4":
+		replace all "{4}" in message with "➃"
+	if player has permission "hyperchat.symbols.5":
+		replace all "{5}" in message with "➄"
+	if player has permission "hyperchat.symbols.6":
+		replace all "{6}" in message with "➅"
+	if player has permission "hyperchat.symbols.7":
+		replace all "{7}" in message with "➆"
+	if player has permission "hyperchat.symbols.8":
+		replace all "{8}" in message with "➇"
+	if player has permission "hyperchat.symbols.9":
+		replace all "{9}" in message with "➈"
+	if player has permission "hyperchat.symbols.10":
+		replace all "{10}" in message with "➉"
+		
+# Chat Control
+
+command /disablechat:
+	permission: hyperchat.admin
+	permission message: &cYou do not have access to execute this command! Permission required: hyperchat.admin
+	usage: &7/disablechat
+	trigger:
+		if {chat.disabled} is true:
+			message "&aChat is already &cdisabled&a!"
+		if {chat.disabled} is false:
+			message "&aChat has been &cdisabled&a. People with permission hyperchat.chatbypass can still chat."
+			set {chat.disabled} to true
+
+command /enablechat:
+	permission: hyperchat.admin
+	permission message: &cYou do not have access to execute this command! Permission required: hyperchat.admin
+	usage: &7/enablechat
+	trigger:
+		if {chat.disabled} is true:
+			message "&aChat has been &2enabled&a. Anyone can chat now."
+			set {chat.disabled} to false
+		if {chat.disabled} is false:
+			message "&aChat is already &2enabled&a!"
+			
+
+command /clearchat [<text>]:
+	usage: &7/clearchat
+	aliases: /cc
+	trigger:
+		if arg-1 is not set:
+			if player doesn't have permission "hyperchat.admin":
+				message "&cYou do not have access to execute this command! Permission required: hyperchat.admin"
+			if player has permission "hyperchat.admin":
+				loop 100 times:
+					broadcast " "
+				broadcast "&aChat has been cleared by %player%."
+				message "&aYou have cleared chat."
+		if arg-1 is "silent":
+			loop 100 times:
+				broadcast " "
+			broadcast "&aChat has been cleared."
+			message "&aYou have cleared chat."
+		if arg-1 is "personal":
+			loop 100 times:
+				message " "
+			message "&aYou have cleared your chat."
+				
+on chat:
+	if {chat.disabled} is true:
+		player doesn't have permission "hyperchat.chatbypass"
+		cancel event
+		message "&aYou can not talk while the chat is disabled."
+		
+# Command Protection
+on command:
+	if command is "pl":
+		if player doesn't have permission "hyperchat.cmdbypass":
+			send "&fUnknown command. Type ""/help"" for help." to player
+			cancel event
+	if command is "bukkit:pl":
+		if player doesn't have permission "hyperchat.cmdbypass":
+			send "&fUnknown command. Type ""/help"" for help." to player
+			cancel event
+	if command is "plugins":
+		if player doesn't have permission "hyperchat.cmdbypass":
+			send "&fUnknown command. Type ""/help"" for help." to player
+			cancel event
+		
+# AdBlock
+on chat:
+	if message contains ".com" or ".net" or ".co" or ".us" or ".uk" or ".ws" or ".tk" or ".org" or ".to" or "dot." or "dot," or "(dot)" or ".192" or "dot" or ".aternos" or ".tech" or ".edu" or "DOT" or " , " or ".de" or ".tl" or ".nl" or ".be" or ".me" or ".info" or ".ly" or ".onion" or ".bit" or ".pl" or ".gl" or ".tv" or ".gs" or ".myserver" or ".club" or ".space" or ".design" or ".rent" or ".bid" or ".trade" or ".webcam" or ".press" or ".io" or ".ca" or ".college" or ".host" or ".es" or ".yoga" or ".financial" or ".flights" or ".guitars" or ".xyz" or ".dj" or ".is" or ".hub" or ".server" or ".webcam" or ".ninja" or ".financial" or ".ca" or ".eu" or ".gg" or ".is":
+		if player doesn't have the permission "hyperchat.chatbypass":
+			cancel event
+			send "&8&m-------------------------"
+			send "&c&lPlease do not advertise"
+			send "&8&m-------------------------"
+			
+# Prefixes and Suffixes
+command /prefix [<text>] [<player>] [<text>]:
+	permission: hyperchat.admin
+	trigger:
+		if arg-1 is not set:
+			message " &eHyperchat Prefixes" 
+			message ""
+			message " &3/prefix set &e[Player] [Prefix]"
+			message " &3/prefix clear &e[Player]"
+		if arg-1 is "set":
+			if arg-2 is not set:
+				message "&cYou need to provide the name of a player!"
+			if arg-2 is set:
+				if arg-3 is not set:
+					message "&cYou need to provide the prefix they will be given."
+				if arg-3 is set:
+					{@customChatFormat} = false:
+						set {arg-2.prefix} to ""
+						set arg-2's prefix to ""
+						set {arg-2.prefix} to "%arg-3% &r"
+						set prefix of arg-2 to "{arg-2.prefix}"
+						set {arg-2.prefix} to "%arg-3%"
+					{@customChatFormat} = true:
+						set the display name of arg-2 to colored "%arg-2%"
+						set the display name of arg-2 to colored "%arg-3%&r %arg-2's display name%"
+					message colored "&eSet &b%arg-2%&e's prefix to &a%arg-3%&e!"
+		if arg-1 is "clear":
+			if arg-2 is not set:
+				message "&cYou need to provide the name of a player!"
+			if arg-2 is set:
+				set arg-2's prefix to ""
+				message "&eCleared &b%arg-2%&e's prefix!"
+				{@customChatFormat} = true:
+					set the display name of arg-2 to colored "%player%"						
+		
+command /suffix [<text>] [<player>] [<text>]:
+	permission: hyperchat.admin
+	trigger:
+		if arg-1 is not set:
+			message " &eHyperchat Suffixes" 
+			message ""
+			message " &3/suffix set &e[Player] [Suffix]"
+			message " &3/suffix clear &e[Player]"
+		if arg-1 is "set":
+			if arg-2 is not set:
+				message "&cYou need to provide the name of a player!"
+			if arg-2 is set:
+				if arg-3 is not set:
+					message "&cYou need to provide the suffix they will be given."
+				if arg-3 is set:
+					{@customChatFormat} = false:
+                        set {arg-2.suffix} to ""
+						set arg-2's suffix to ""
+						set {arg-2.suffix} to "%arg-3% &r"
+						set suffix of arg-2 to "{arg-2.suffix}"
+						set {arg-2.suffix} to "%arg-3%"
+					{@customChatFormat} = true:
+						set the display name of arg-2 to colored "%arg-2%"
+						set the display name of arg-2 to colored "%arg-2's display name% %arg-3%&r"						
+					message "&eSet &b%arg-2%&e's suffix to &a%arg-3%&e!"
+		if arg-1 is "clear":
+			if arg-2 is not set:
+				message "&cYou need to provide the name of a player!"
+			if arg-2 is set:
+				set arg-2's suffix to ""
+				message "&eCleared &b%arg-2%&e's suffix!"
+				{@customChatFormat} = true:
+					set the display name of arg-2 to colored "%player%"		
