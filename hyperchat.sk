@@ -1,15 +1,13 @@
 #
 #                             
 #                             
-#        Hyperchat        
-#   by Hyperbyte and midoublelo  
+#         Hyperchat        
+#       by midoublelo  
 #                             
 #
 #
 # All parts are split up to allow full customization
 # No support will be offered if the problem is due to you editing the Skript
-
-
 
 options:
 	customChatFormat: true
@@ -40,7 +38,6 @@ on join:
 on quit:
 	set quit message to {@customLeaveMessage}
 
-
 # Main Command
 
 command /hyperchat [<text>] [<text>] [<text>] [<text>]:
@@ -50,9 +47,9 @@ command /hyperchat [<text>] [<text>] [<text>] [<text>]:
 	aliases: /hchat, /hyperc, /hc
 	trigger:
 		if arg-1 is not set:
-			message "&e&lHyperchat v1.3 &eby Hyperbyte and midoublelo"
+			message "&e&lHyperchat &eby midoublelo"
 			message "&eUse /hyperchat help for commands"
-			message "&eUse /hyperchat reload to reload the config"
+			message "&eUse /hyperchat reload to reload the Skript"
 		if arg-1 is "help":
 			if arg-2 is not set:
 				message "         &e&lHyperchat Command List"
@@ -92,6 +89,7 @@ command /hyperchat [<text>] [<text>] [<text>] [<text>]:
 				message "         &e&lHyperchat Chat Help"
 				message ""
 				message "      &e/staffchat [Message] - Requires hyperchat.admin"
+				message "      &e/pm [Player] [Message] - No permission needed"
 			if arg-2 is "punishment":
 				message "         &e&lHyperchat Punishment Help"
 				message ""
@@ -158,12 +156,8 @@ command /hyperchat [<text>] [<text>] [<text>] [<text>]:
 		if arg-1 is "reload":
 			message "&eStarting Hyperchat reload."
 			execute console command "/sk reload hyperchat"
-			message "&eHyperchat &areloaded&e. &cErrors &eare unable to be shown in reload. Check console for possible &c&nerror checking&e and report them to Hyperbyte."
-		
-				
-				
-				
-				
+			message "&eHyperchat &areloaded&e."
+			
 # Broadcasting
 
 command /broadcast [<text>]:
@@ -214,6 +208,14 @@ command /staffchat [<text>]:
 			loop all players:
 				if player has permission "hyperchat.admin":
 					send "&8&l[&a&lStaff Chat&8&l] &7%player's display name%&8: &e%arg-1%" to loop-player
+
+command /pm [<player>] [<text>]:
+	aliases: /msg
+	trigger:
+		if arg-1 is not set:
+			message "&eYou must choose a player to message."
+		if arg-1 is set:
+			send "&7%player's display name%&8: &e%arg-2%" to arg-1
 
 on chat:					
 	log "%player's uuid%/%player%: %message%" to "Hyperchat/playerhistory/%player%/chat"
@@ -500,4 +502,4 @@ command /suffix [<text>] [<player>] [<text>]:
 				set arg-2's suffix to ""
 				message "&eCleared &b%arg-2%&e's suffix!"
 				{@customChatFormat} = true:
-					set the display name of arg-2 to colored "%player%"		
+					set the display name of arg-2 to colored "%player%"
